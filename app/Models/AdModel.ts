@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import UserModel from './UserModel'
 
 export default class AdModel extends BaseModel {
   @column({ isPrimary: true })
@@ -8,10 +7,6 @@ export default class AdModel extends BaseModel {
 
   @column()
   public title: string
-
-  @column()
-  public author: UserModel
-
   @column()
   public description: string
 

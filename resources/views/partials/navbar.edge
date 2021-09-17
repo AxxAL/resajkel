@@ -15,6 +15,11 @@
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/login">Logga in</a>
             </li>
+            @if(auth.isLoggedIn)
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/user/{{ auth.user.id }}">Inloggad som {{ auth.user.firstName }}</a>
+                </li>
+            @endif
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Sök" aria-label="Search">

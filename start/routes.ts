@@ -20,6 +20,7 @@
 
 import { Router } from '@adonisjs/core/build/standalone';
 import Route from '@ioc:Adonis/Core/Route';
+import UserModel from 'App/Models/UserModel';
 
 const ads = [
   {
@@ -88,11 +89,41 @@ Route.get("ad/:id", async ({ view, params }) => {
  */
 
 // [GET] /login | Returns login form
-Route.get("/login", ({ view }) => {
+Route.get("/login", async ({ view }) => {
   return view.render("auth/login-form");
 });
 
 // [POST] /login/auth | Authenticates login request
-Route.post("/login/auth", ({ auth, request}) => {
+Route.post("/login/auth", async ({ auth, request, response}) => {
+  const email: string = request.input("email");
+  const password: string = request.input("password");
 
+  try {
+    await auth.use("web").attempt(email, password);
+    return response.redirect("/");
+  } catch {
+    return response.badRequest("Felaktiga inloggningsuppgifter!");
+  }
+});
+
+// [GET] /logout | Logs user out
+Route.post("/logout", async ({ auth, response}) => {
+  await auth.use("web").logout();
+  response.redirect("/");
+});
+
+// [GET] /register | Returns register form
+Route.get("/register", async ({ view }) => {
+  return view.render("auth/register-form");
+});
+
+// [POST] /register/auth | Authenticates register request
+Route.post("/register/auth", async ({ request, response }) => {
+  const firstname: string = request.input("firstname");
+  const email: string = request.input("email");
+  const password: string = request.input("password");
+
+  await UserModel.create({ firstname, email, password});
+
+  return response.redirect("/");
 });
