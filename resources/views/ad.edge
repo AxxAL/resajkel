@@ -1,0 +1,8 @@
+@layout("layouts/main")
+@set("title", "Annons")
+
+@section("body")
+    <h1>{{ ad.title }}</h1>
+    <p>{{ ad.description }}</p>
+    <img src="{{ ad.images[0].url }}" alt="{{ ad.images[0].alt }}"/>
+@end

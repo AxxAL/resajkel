@@ -1,0 +1,14 @@
+@layout("layouts/main")
+@set("title", "Annonser")
+
+@section("body")
+    <div class="container">
+        <div class="row">
+            @each(ad in ads)
+                <div class="col">
+                    @!component("components/ad-card", ad)
+                </div>
+            @end
+        </div>
+    </div>
+@end
