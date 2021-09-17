@@ -1,0 +1,11 @@
+@layout("layouts/main")
+@set("title", "Kontrollpanel")
+
+@section("body")
+    <div class="container">
+        <h1 class="mb-4">Du är inloggad som: {{ auth.user.firstname }}</h1>
+        <a class="btn btn-primary" href="/ad/create">Skapa annons</a>
+        <a class="btn btn-primary" href="/ad/my">Mina annonser</a>
+        <a class="btn btn-danger" href="/removeaccount">Ta bort mitt konto</a>
+    </div>
+@end

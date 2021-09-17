@@ -1,0 +1,26 @@
+@layout("layouts/main")
+@set("title", "Skapa annons")
+
+@section("body")
+    <div class="container">
+        <form action="/ad/create" method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Titel</label>
+                <input type="text" class="form-control" id="title" name="title" autocomplete="off">
+              </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Pris</label>
+              <input type="number" class="form-control" id="price" name="price" autocomplete="off">
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Beskrivning</label>
+              <textarea type="text" class="form-control" id="description" name="description"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="imageurl" class="form-label">Bild URL</label>
+                <input type="text" class="form-control" id="imageurl" name="imageurl" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary">Skapa annons</button>
+        </form>
+    </div>
+@end

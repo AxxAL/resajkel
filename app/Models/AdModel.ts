@@ -7,11 +7,18 @@ export default class AdModel extends BaseModel {
 
   @column()
   public title: string
+
+  @column()
+  public author_id: number
+
+  @column()
+  public price: number
+
   @column()
   public description: string
 
   @column()
-  public imageUrl: string
+  public image_url: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

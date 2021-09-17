@@ -12,13 +12,17 @@
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/ad/all">Alla annonser</a>
             </li>
+            @if(auth.isLoggedIn)
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/dashboard">Kontrollpanel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/logout">Logga ut</a>
+                </li>
+            @else
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/login">Logga in</a>
             </li>
-            @if(auth.isLoggedIn)
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/user/{{ auth.user.id }}">Inloggad som {{ auth.user.firstName }}</a>
-                </li>
             @endif
             </ul>
             <form class="d-flex">

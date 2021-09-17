@@ -11,9 +11,6 @@ export default class UserModelsSchema extends BaseSchema {
       table.string("firstname", 255).notNullable()
       table.string('remember_me_token').nullable()
 
-      /**
-       * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
     })
