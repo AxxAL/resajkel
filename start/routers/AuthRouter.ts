@@ -46,7 +46,7 @@ Route.post("/register/auth", async ({ request, response }) => {
   
     await UserModel.create({ firstname, email, password });
   
-    return response.redirect("/");
+    return response.redirect("/dashboard");
 });
 
 // [GET] /removeaccount | Remove account and all related ads. GDPR

@@ -1,5 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route';
 import AdModel from 'App/Models/AdModel';
+import UserModel from 'App/Models/UserModel';
 
 /**
  * Ad routes
@@ -41,7 +42,9 @@ Route.get("/ad/remove/:id", async ({ params, response, auth}) => {
   const id: number = params.id;
   
   await AdModel.findByOrFail("id", id).then(ad => {
-    ad.delete();
+    if (ad.author_id == auth.user?.id) {
+      ad.delete();
+    }
   });
   
   return response.redirect("/ad/my");
@@ -58,9 +61,12 @@ Route.get("/ad/my", async ({ view, auth, response }) => {
 });
   
 // [GET] /ad:id | Returns detailed view of an ad.
-Route.get("/ad/:id", async ({ view, params }) => {
+Route.get("/ad/:id", async ({ view, params, response }) => {
   const id: number = params.id;
-  const ad: AdModel = await AdModel.findByOrFail("id", id);
+  const ad: AdModel | null = await AdModel.findBy("id", id);
+  if (ad == null) return response.redirect("/ad/all");
+  const author: UserModel | null = await UserModel.findBy("id", ad.author_id);
+  if (ad == null) return response.redirect("/ad/all");
   
-  return view.render("ad/ad", { ad });
+  return view.render("ad/ad", { ad, author });
 });

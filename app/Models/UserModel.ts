@@ -13,6 +13,9 @@ export default class UserModel extends BaseModel {
   @column()
   public email: string
 
+  @column()
+  public phonenumber: string
+
   @column({ serializeAs: null })
   public password: string
 
