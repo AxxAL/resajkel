@@ -20,7 +20,8 @@
 
 import Route from '@ioc:Adonis/Core/Route';
 import "./routers/AdRouter"; // View, Register & Remove ads.
-import "./routers/AuthRouter" // Login & Register user.
+import "./routers/AuthRouter"; // Login & Register user.
+import "./routers/APIRouter"; // API routes
 
 // [GET] / | Returns home page.
 Route.get('/', async ({ view }) => {

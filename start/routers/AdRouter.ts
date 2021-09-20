@@ -1,4 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route';
+import { CreateNewAd, GetAllAds } from 'App/Handlers/DatabaseHandler';
 import AdModel from 'App/Models/AdModel';
 import UserModel from 'App/Models/UserModel';
 
@@ -8,7 +9,7 @@ import UserModel from 'App/Models/UserModel';
 
 // [GET] /ad/all | Returns a list of all ads.
 Route.get("/ad/all", async ({ view }) => {
-  const ads: AdModel[] = await AdModel.all();
+  const ads: AdModel[] = await GetAllAds();
   return view.render("ad/ad-list", { ads });
 });
   
@@ -23,13 +24,7 @@ Route.post("/ad/create", async ({ request, response, auth }) => {
   await auth.use("web").authenticate();
   if (!auth.user) return response.redirect("/");
   
-  const title: string = request.input("title");
-  const author_id: number = auth.user?.id;
-  const price: number = request.input("price");
-  const description: string = request.input("description");
-  const image_url: string = request.input("imageurl");
-  
-  const ad = await AdModel.create({ title, author_id, price, description, image_url });
+  const ad = await CreateNewAd(request, auth);
   
   response.redirect(`/ad/${ad.id}`);
 });

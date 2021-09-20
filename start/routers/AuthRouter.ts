@@ -40,11 +40,12 @@ Route.get("/register", async ({ view }) => {
 Route.post("/register/auth", async ({ request, response }) => {
     const firstname: string = request.input("firstname");
     const email: string = request.input("email");
+    const phonenumber: string = request.input("phonenumber");
     const password: string = request.input("password");
   
     if (await UserModel.findBy("email", email) != null) return response.badRequest("Den angivna emailen är redan kopplad till ett konto!");
   
-    await UserModel.create({ firstname, email, password });
+    await UserModel.create({ firstname, email, phonenumber, password });
   
     return response.redirect("/dashboard");
 });

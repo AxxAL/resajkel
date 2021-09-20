@@ -4,7 +4,7 @@
 @section("body")
     <div class="container">
         <h1>{{ ad.title }}</h1>
-        <img src="{{ ad.image_url }}" class="img-thumbnail w-50" alt="Bild på {{ ad.title }}">
+        <img src="{{ ad.image_url }}" class="img-thumbnail" style="height: 40vh" alt="Bild på {{ ad.title }}">
         <p class="text-success" style="font-size: 1.8rem;">{{ ad.price }} SEK</p>
         <p>{{ ad.description }}</p>
         <p>Säljes av {{ author.firstname }}</p>
