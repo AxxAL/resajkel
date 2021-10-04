@@ -2,6 +2,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import AdModel from "App/Models/AdModel";
 import UserModel from "App/Models/UserModel";
 import { UploadImage } from "App/Handlers/FileHandler";
+import { NullOrWhitespace } from "App/Util";
 
 export default class AdController {
 
@@ -22,15 +23,23 @@ export default class AdController {
     public async CreatePost(ctx: HttpContextContract): Promise<void> {
         const { auth, request, response } = ctx;
 
-        if (!auth.isLoggedIn) return response.status(401).send("Unauthorized");
+        await auth.use("web").authenticate();
         
         const title: string = request.input("title");
         const author_id: number | undefined = auth.user?.id;
         const price: number = request.input("price");
         const description: string = request.input("description");
         const image_url: string = await UploadImage(request.file("image"), auth?.user);
+
+        if (
+            NullOrWhitespace(title) ||
+            NullOrWhitespace(description) ||
+            NullOrWhitespace(image_url)
+        ) return response.status(403).send("Tog emot tomma fält.");
+
+        if (price < 0) return response.status(403).send("Priset måste vara större än noll." );
         
-        const ad = await AdModel.create({ title, author_id, price, description, image_url });
+        const ad: AdModel = await AdModel.create({ title, author_id, price, description, image_url });
         
         response.redirect(`/ad/${ad.id}`);
     } // Route to register new ad.
