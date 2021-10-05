@@ -2,8 +2,12 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import AdModel from "App/Models/AdModel";
 import UserModel from "App/Models/UserModel";
 import { UploadImage } from "App/Handlers/FileHandler";
-import { NullOrWhitespace } from "App/Util";
 import { schema, rules } from "@ioc:Adonis/Core/Validator";
+
+/**
+ *  Logic for all ad routes.
+ * Routes defined in /start/routers/AdRouter.ts
+ */
 
 export default class AdController {
 
@@ -86,4 +90,4 @@ export default class AdController {
         return view.render("ad/ad", { ad, author });
     } // Returns detailed view of specified ad.
 
-} // Logic for all ad routes.
+}

@@ -1,71 +1,24 @@
 import Route from '@ioc:Adonis/Core/Route';
-import AdModel from 'App/Models/AdModel';
-import UserModel from 'App/Models/UserModel';
 
 /**
- * Authentication routes.
- */
+ * Authentication routes
+ * Logic defined in app/Controllers/Http/AuthController.ts
+*/
 
 // [GET] /login | Returns login form.
-Route.get("/login", async ({ view }) => {
-    return view.render("auth/login-form");
-});
+Route.get("/login", "AuthController.LoginForm");
 
 // [POST] /login/auth | Authenticates login request.
-Route.post("/login/auth", async ({ auth, request, response}) => {
-    const email: string = request.input("email");
-    const password: string = request.input("password");
-    const rememberMe: boolean = request.input("rememberme");
-  
-    try {
-      await auth.use("web").attempt(email, password, rememberMe);
-      return response.redirect("/dashboard");
-    } catch {
-      return response.badRequest("Felaktiga inloggningsuppgifter!");
-    }
-});
+Route.post("/login/auth", "AuthController.AuthPOST");
   
 // [GET] /logout | Logs user out.
-Route.get("/logout", async ({ auth, response}) => {
-    await auth.use("web").logout();
-    response.redirect("/");
-});
+Route.get("/logout", "AuthController.Logout");
 
 // [GET] /register | Returns register form.
-Route.get("/register", async ({ view }) => {
-    return view.render("auth/register-form");
-});
+Route.get("/register", "AuthController.RegisterForm");
   
-// [POST] /register/auth | Authenticates register request.
-Route.post("/register/auth", async ({ request, response }) => {
-    const firstname: string = request.input("firstname");
-    const email: string = request.input("email");
-    const phonenumber: string = request.input("phonenumber");
-    const password: string = request.input("password");
-  
-    if (await UserModel.findBy("email", email) != null) return response.badRequest("Den angivna emailen är redan kopplad till ett konto!");
-  
-    await UserModel.create({ firstname, email, phonenumber, password });
-  
-    return response.redirect("/dashboard");
-});
+// [POST] /register/auth | Authenticates user registration request.
+Route.post("/register/auth", "AuthController.RegisterPOST");
 
 // [GET] /removeaccount | Remove account and all related ads. GDPR
-Route.get("/removeaccount", async ({ auth, response }) => {
-    await auth.use("web").authenticate();
-    if (auth.user == null) return response.redirect("/login");
-
-    const id: number = auth.user.id;
-
-    await auth.use("web").logout();
-
-    await AdModel.query().where("author_id", id).then(ads => {
-        ads.forEach(ad => ad.delete());
-    });
-
-    await UserModel.findByOrFail("id", id).then(user => {
-        user.delete();
-    });
-
-    return response.redirect("/login");
-});
+Route.get("/removeaccount", "AuthController.RemoveUser");

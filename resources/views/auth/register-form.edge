@@ -9,7 +9,7 @@
                 <input type="text" class="form-control" id="firstname" name="firstname" autocomplete="off">
               </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Email address*</label>
+              <label for="email" class="form-label">Email adress*</label>
               <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" autocomplete="off">
             </div>
             <div class="mb-3">
@@ -21,10 +21,18 @@
               <input type="password" class="form-control" id="password" name="password">
             </div>
             <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="agree" name="agree">
-              <label class="form-check-label" for="agree">Jag har läst och accepterar Resajkels termer och överrenskommelser</label>
+              <input type="checkbox" class="form-check-input" id="agree" name="agree" onchange="toggleDisabled()">
+              <label class="form-check-label" for="agree">Jag har läst och accepterar Resajkels regler och överrenskommelser.</label>
             </div>
-            <button type="submit" class="btn btn-primary">Registrera dig</button>
+            <button type="submit" class="btn btn-primary" id="submit" disabled>Registrera dig</button>
         </form>
     </div>
+    <script>
+      const submit = document.getElementById("submit");
+      const check = document.getElementById("agree");
+
+      function toggleDisabled() {
+        check.checked ? submit.disabled = false : submit.disabled = true;
+      }
+    </script>
 @end
