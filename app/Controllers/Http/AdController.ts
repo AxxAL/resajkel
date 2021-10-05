@@ -3,6 +3,7 @@ import AdModel from "App/Models/AdModel";
 import UserModel from "App/Models/UserModel";
 import { UploadImage } from "App/Handlers/FileHandler";
 import { NullOrWhitespace } from "App/Util";
+import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
 export default class AdController {
 
@@ -24,24 +25,27 @@ export default class AdController {
         const { auth, request, response } = ctx;
 
         await auth.use("web").authenticate();
-        
-        const title: string = request.input("title");
-        const author_id: number | undefined = auth.user?.id;
-        const price: number = request.input("price");
-        const description: string = request.input("description");
-        const image_url: string = await UploadImage(request.file("image"), auth?.user);
 
-        if (
-            NullOrWhitespace(title) ||
-            NullOrWhitespace(description) ||
-            NullOrWhitespace(image_url)
-        ) return response.status(403).send("Tog emot tomma fält.");
+        // Validation schema for HTTP request body.
+        const adSchema = schema.create({
+            title: schema.string(),
+            price: schema.number([ rules.range(1, 10000000) ]),
+            description: schema.string(),
+            image: schema.file()
+        });
+        const body = await request.validate({ schema: adSchema });
 
-        if (price < 0) return response.status(403).send("Priset måste vara större än noll." );
+        // Separates unnecessary fields from necessary.
+        let { image, ...payload } = body;
+
+        // Add required fields to payload.
+        Object.assign(payload, {
+            author_id: auth.user?.id,
+            image_url: await UploadImage(image, auth?.user)
+        });
         
-        const ad: AdModel = await AdModel.create({ title, author_id, price, description, image_url });
-        
-        response.redirect(`/ad/${ad.id}`);
+        const ad: AdModel = await AdModel.create(payload);
+        return response.redirect(`/ad/${ad.id}`);
     } // Route to register new ad.
 
     public async RemoveAd(ctx: HttpContextContract): Promise<void> {
@@ -56,7 +60,7 @@ export default class AdController {
             if (ad.author_id == auth.user?.id) ad.delete();
         });
         
-        return ctx.response.redirect("/ad/my");
+        return response.redirect("/ad/my");
     } // Removes specified ad.
 
     public async UserAds(ctx: HttpContextContract): Promise<string | void> {
