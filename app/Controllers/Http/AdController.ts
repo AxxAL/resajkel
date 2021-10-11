@@ -35,13 +35,13 @@ export default class AdController {
             title: schema.string(),
             price: schema.number([ rules.range(1, 10000000) ]),
             description: schema.string(),
-            image: schema.file()
+            image: schema.file({ size: "8mb", extnames: ["png", "jpg", "jpeg"] })
         });
         const body = await request.validate({ schema: adSchema });
 
         // Separates unnecessary fields from necessary.
         let { image, ...payload } = body;
-
+        
         // Add required fields to payload.
         Object.assign(payload, {
             author_id: auth.user?.id,

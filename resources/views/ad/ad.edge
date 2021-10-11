@@ -3,14 +3,15 @@
 
 @section("body")
     <div class="container">
+        <img src="{{ ad.image_url }}" class="img-thumbnail" style="height: 50vh;" alt="Bild på {{ ad.title }}">
         <h1>{{ ad.title }}</h1>
-        <img src="{{ ad.image_url }}" class="img-thumbnail" style="height: 40vh" alt="Bild på {{ ad.title }}">
+        <p>Inlagd: {{ ad.createdAt }}</p>
         <p class="text-success" style="font-size: 1.8rem;">{{ ad.price }} SEK</p>
         <p>{{ ad.description }}</p>
-        <p>Säljes av {{ author.firstname }}</p>
+        <p class="border-top border-dark">Säljes av {{ author.firstname }}</p>
         <div>
-            <p style="margin: 0;">Kontakt:</p>
             <p style="margin: 0;">Telefon: {{ author.phonenumber }}</p>
+            <p class="m-0">Email: {{ author.email }}</p>
         </div>
     </div>
 @end

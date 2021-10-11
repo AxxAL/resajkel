@@ -17,8 +17,6 @@ export async function UploadImage(file: MultipartFileContract | null, user: User
     await file.moveToDisk(`images/${user.id}`, {
         name: fileName,
         visibility: "public",
-        size: "8mb",
-        extnames: [ "png", "jpg", "jpeg" ],
         contentType: "image"
     });
 

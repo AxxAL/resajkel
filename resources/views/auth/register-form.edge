@@ -4,6 +4,7 @@
 @section("body")
     <div class="container">
         <form action="/register/auth" method="POST">
+          <h1>Registrera konto</h1>
             <div class="mb-3">
                 <label for="firstname" class="form-label">Namn*</label>
                 <input type="text" class="form-control" id="firstname" name="firstname" autocomplete="off">
@@ -11,10 +12,12 @@
             <div class="mb-3">
               <label for="email" class="form-label">Email adress*</label>
               <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" autocomplete="off">
+              <small id="emailHelp" class="form-text text-muted">Din email kommer visas på dina annonser.</small>
             </div>
             <div class="mb-3">
               <label for="phonenumber" class="form-label">Telefonnummer*</label>
               <input type="text" class="form-control" id="phonenumber" name="phonenumber" autocomplete="off">
+              <small id="emailHelp" class="form-text text-muted">Ditt telefonnummer kommer visas på dina annonser.</small>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Lösenord*</label>
@@ -22,7 +25,7 @@
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="agree" name="agree" onchange="toggleDisabled()">
-              <label class="form-check-label" for="agree">Jag har läst och accepterar Resajkels regler och överrenskommelser.</label>
+              <label class="form-check-label" for="agree">Jag har läst och accepterar <a href="/tos">Resajkels regler och överrenskommelser</a>.</label>
             </div>
             <button type="submit" class="btn btn-primary" id="submit" disabled>Registrera dig</button>
         </form>

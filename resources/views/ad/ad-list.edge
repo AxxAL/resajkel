@@ -3,12 +3,18 @@
 
 @section("body")
     <div class="container">
-        <div class="row justify-content-start">
-            @each(ad in ads)
+        <h1>Alla annonser</h1>
+        @if(ads.length > 0)
+            <div class="row justify-content-start">
+                @each(ad in ads)
                 <div class="col">
                     @!component("components/ad-card", { ad })
                 </div>
-            @end
+                @end
+            </div>
+        @else
+            <p>Här var det öde :P</p>
+        @endif
         </div>
     </div>
 @end
