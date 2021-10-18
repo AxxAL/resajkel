@@ -5,11 +5,9 @@
     <div class="container">
         <h1>Alla annonser</h1>
         @if(ads.length > 0)
-            <div class="row justify-content-start">
+            <div class="row align-items-start">
                 @each(ad in ads)
-                <div class="col">
                     @!component("components/ad-card", { ad })
-                </div>
                 @end
             </div>
         @else

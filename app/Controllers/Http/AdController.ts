@@ -85,9 +85,10 @@ export default class AdController {
         const ad: AdModel | null = await AdModel.findBy("id", id);
         if (ad == null) return response.redirect("/ad/all");
         const author: UserModel | null = await UserModel.findBy("id", ad.author_id);
-        if (ad == null) return response.redirect("/ad/all");
+        if (author == null) return response.redirect("/ad/all");
+        const formatedTime: string = ad.createdAt.toString().split("T")[0];
         
-        return view.render("ad/ad", { ad, author });
+        return view.render("ad/ad", { ad, author, formatedTime });
     } // Returns detailed view of specified ad.
 
 }

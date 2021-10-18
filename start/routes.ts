@@ -16,4 +16,4 @@ Route.get("/dashboard", async ({ view, auth }) => {
 
 Route.get("/tos", async ({ view }) => {
   return await view.render("tos");
-});
+}); // [GET] /tos | Returns view for the ToS page.

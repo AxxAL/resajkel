@@ -5,7 +5,7 @@
     <div class="container">
         <img src="{{ ad.image_url }}" class="img-thumbnail" style="height: 50vh;" alt="Bild på {{ ad.title }}">
         <h1>{{ ad.title }}</h1>
-        <p>Inlagd: {{ ad.createdAt }}</p>
+        <p>Inlagd: {{ formatedTime }}</p>
         <p class="text-success" style="font-size: 1.8rem;">{{ ad.price }} SEK</p>
         <p>{{ ad.description }}</p>
         <p class="border-top border-dark">Säljes av {{ author.firstname }}</p>
