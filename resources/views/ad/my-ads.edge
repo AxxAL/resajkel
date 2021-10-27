@@ -4,11 +4,16 @@
 @section("body")
     <div class="container">
         <div class="row">
-            @each(ad in ads)
+            @if(ads.length > 0)
+                @each(ad in ads)
                 <div class="col">
                     @!component("components/my-ad-card", { ad })
                 </div>
-            @end
+                @end
+            @else
+                <p>Här var det öde :P</p>
+                <p>Just nu har du inga annonser. Du kan däremot skapa en annons genom att <a href="/ad/create">klicka här</a>.</p>
+            @endif
         </div>
     </div>
 @end

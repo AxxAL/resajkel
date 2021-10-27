@@ -12,18 +12,14 @@
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/ad/all">Alla annonser</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard">Mina sidor</a>
+            </li>
             @if(auth.isLoggedIn)
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/dashboard">Kontrollpanel</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/logout">Logga ut</a>
                 </li>
-            @else
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/login">Logga in</a>
-            </li>
-            @endif
+            @end
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Sök" aria-label="Search">
