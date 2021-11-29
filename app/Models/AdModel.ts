@@ -1,28 +1,36 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { v4 as uuidv4 } from "uuid";
 
 export default class AdModel extends BaseModel {
+
   @column({ isPrimary: true })
-  public id: number
+  public id: string;
 
   @column()
-  public title: string
+  public title: string;
 
   @column()
-  public author_id: number
+  public author_id: string;
 
   @column()
-  public price: number
+  public price: number;
 
   @column()
-  public description: string
+  public description: string;
 
   @column()
-  public image_url: string
+  public image_url: string;
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  public createdAt: DateTime;
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  public updatedAt: DateTime;
+
+  @beforeSave()
+  public static async createId(adModel: AdModel) {
+    adModel.id = uuidv4();
+  } // Generates a UUID before saving ad to database.
+
 }

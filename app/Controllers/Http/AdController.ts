@@ -81,7 +81,7 @@ export default class AdController {
     public async Ad(ctx: HttpContextContract): Promise<string | void> {
         const { params, response, view } = ctx;
 
-        const id: number = params.id;
+        const id: string = params.id;
         const ad: AdModel | null = await AdModel.findBy("id", id);
         if (ad == null) return response.redirect("/ad/all");
         const author: UserModel | null = await UserModel.findBy("id", ad.author_id);

@@ -5,9 +5,9 @@ export default class Ads extends BaseSchema {
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
+      table.string('id')
       table.string("title")
-      table.integer("author_id")
+      table.string("author_id")
       table.integer("price")
       table.string("description")
       table.string("image_url")

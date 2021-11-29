@@ -10,13 +10,11 @@ import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
 export default class AuthController {
 
-    public  async LoginForm(ctx: HttpContextContract): Promise<string> {
-        const { view } = ctx;
+    public  async LoginForm({ view }: HttpContextContract): Promise<string> {
         return view.render("auth/login-form");
     } // Returns view for logging in.
 
-    public async AuthPOST(ctx: HttpContextContract): Promise<void> {
-        const { request, response, auth } = ctx;
+    public async AuthPOST({ request, response, auth }: HttpContextContract): Promise<void> {
 
         const email: string = request.input("email");
         const password: string = request.input("password");
@@ -28,15 +26,14 @@ export default class AuthController {
         } catch {
             return response.badRequest("Felaktiga inloggningsuppgifter!");
         }
+
     } // Authenticates user and logs them in.
 
-    public async RegisterForm(ctx: HttpContextContract): Promise<string> {
-        const { view } = ctx;
+    public async RegisterForm({ view }: HttpContextContract): Promise<string> {
         return view.render("auth/register-form");
     } // Returns view for registering a user.
 
-    public async RegisterPOST(ctx: HttpContextContract): Promise<void> {
-        const { request, response } = ctx;
+    public async RegisterPOST({ request, response }: HttpContextContract): Promise<void> {
 
         const userSchema = schema.create({
             email: schema.string({}, [ rules.email() ]),
@@ -53,20 +50,16 @@ export default class AuthController {
         return response.redirect("/dashboard");
     } // Registers new user.
 
-    public async Logout(ctx: HttpContextContract): Promise<void> {
-        const { response, auth } = ctx;
-
+    public async Logout({ response, auth }: HttpContextContract): Promise<void> {
         await auth.use("web").logout();
         return response.redirect("/");
     } // Signs out user who is currently logged.
 
-    public async RemoveUser(ctx: HttpContextContract): Promise<void> {
-        const { auth, response } = ctx;
-
+    public async RemoveUser({ auth, response }: HttpContextContract): Promise<void> {
         await auth.use("web").authenticate();
         if (auth.user == null) return response.redirect("/login");
 
-        const id: number = auth.user.id;
+        const id: string = auth.user.id;
 
         await auth.use("web").logout();
 

@@ -22,9 +22,24 @@
             @end
             </ul>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Sök" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Sök</button>
+                <input class="form-control me-2" id="search" type="search" placeholder="Sök" aria-label="Search">
+                <button class="btn btn-outline-success" onclick="search()">Sök</button>
             </form>
         </div>
     </div>
 </nav>
+
+<script>
+    function search() {
+        let query = document.getElementById("search").value;
+        fetch(`http://localhost:3333/api/ad/search/${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => console.log(err));
+    }
+    
+    
+
+</script>
