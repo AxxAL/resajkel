@@ -3,12 +3,11 @@
 
 @section("body")
     <div class="container">
-        <div class="row">
+        <h1>Dina annonser</h1>
+        <div class="row align-items-start">
             @if(ads.length > 0)
                 @each(ad in ads)
-                <div class="col">
                     @!component("components/my-ad-card", { ad })
-                </div>
                 @end
             @else
                 <p>Här var det öde :P</p>
