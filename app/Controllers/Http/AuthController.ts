@@ -36,14 +36,16 @@ export default class AuthController {
     public async RegisterPOST({ request, response }: HttpContextContract): Promise<void> {
 
         const userSchema = schema.create({
-            email: schema.string({}, [ rules.email() ]),
-            phonenumber: schema.string(),
+            email: schema.string({}, [ rules.regex(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ]), // Email regex
+            phonenumber: schema.string({}, [ rules.regex(/^07(0|2|3|6|9)\d{7}$/g) ]), // Swedish phonenumber regex
             password: schema.string(),
             firstname: schema.string()
         });
         const payload = await request.validate({ schema: userSchema });
 
-        if (await UserModel.findBy("email", payload.email) != null) return response.badRequest("Den angivna emailen är redan kopplad till ett konto!");
+        if (await UserModel.findBy("email", payload.email) != null) {
+            return response.badRequest("Den angivna emailen är redan kopplad till ett konto!");
+        }
     
         await UserModel.create(payload);
     
