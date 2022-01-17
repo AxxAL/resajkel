@@ -2,6 +2,10 @@ import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuidv4 } from "uuid";
+import { join } from "path";
+import { rm } from "fs/promises";
+import { Exception } from '@adonisjs/core/build/standalone';
+
 
 export default class UserModel extends BaseModel {
 
@@ -38,5 +42,18 @@ export default class UserModel extends BaseModel {
   public static async createId(userModel: UserModel) {
     userModel.id = uuidv4();
   }// Generates a UUID before saving user to database.
+
+  /**
+   * This method deletes all usercontent and then the user itself.
+   */
+  public async obliterateMe(): Promise<void> {
+    const userFilesPath: string = join(__dirname, "../../tmp/uploads/images", this.id);
+    try {
+      await rm(`${userFilesPath}`, { recursive: true });
+    } catch(err) {
+      throw new Exception("Couldn't delete user's images.");
+    }
+    this.delete();
+  }
 
 }

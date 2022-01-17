@@ -67,7 +67,7 @@ export default class AuthController {
 
         await AdModel.query().where("author_id", id).then(ads => ads.forEach(ad => ad.delete()));
 
-        await UserModel.findByOrFail("id", id).then(user => user.delete());
+        await UserModel.findByOrFail("id", id).then(async user => await user.obliterateMe());
 
         return response.redirect("/login");
     } // Removes currently logged in user's account and all their ads.

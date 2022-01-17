@@ -41,13 +41,20 @@ export default class AdController {
 
         // Separates unnecessary fields from necessary.
         let { image, ...payload } = body;
-        
+
+        let uploadedImageUrl: string;
+        try {
+            uploadedImageUrl = await UploadImage(image, auth?.user);
+        } catch(err) {
+            uploadedImageUrl = "/assets/images/image-not-found.png";
+        }
+
         // Add required fields to payload.
         Object.assign(payload, {
             author_id: auth.user?.id,
-            image_url: await UploadImage(image, auth?.user)
+            image_url: uploadedImageUrl
         });
-        
+
         const ad: AdModel = await AdModel.create(payload);
         return response.redirect(`/ad/${ad.id}`);
     } // Route to register new ad.
@@ -61,7 +68,10 @@ export default class AdController {
         const id: number = params.id;
         
         await AdModel.findByOrFail("id", id).then(ad => {
-            if (ad.author_id == auth.user?.id) ad.delete();
+            if (ad.author_id == auth.user?.id) {
+                ad.delete();
+
+            }
         });
         
         return response.redirect("/ad/my");
