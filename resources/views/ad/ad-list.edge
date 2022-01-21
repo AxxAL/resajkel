@@ -2,17 +2,14 @@
 @set("title", "Annonser")
 
 @section("body")
-    <div class="container">
-        <h1>Alla annonser</h1>
-        @if(ads.length > 0)
-            <div class="row align-items-start">
-                @each(ad in ads)
-                    @!component("components/ad-card", { ad })
-                @end
-            </div>
-        @else
-            <p>Här var det öde :P</p>
-        @endif
+    <h1 style="text-align: center;">Alla annonser</h1>
+    @if(ads.length > 0)
+        <div class="row row-cols-4">
+            @each(ad in ads)
+                @!component("components/ad-card", { ad })
+            @end
         </div>
-    </div>
+    @else
+        <p>Här var det öde :P</p>
+    @endif
 @end

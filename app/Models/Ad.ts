@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuidv4 } from "uuid";
 
-export default class AdModel extends BaseModel {
+export default class Ad extends BaseModel {
 
   @column({ isPrimary: true })
   public id: string;
@@ -29,7 +29,7 @@ export default class AdModel extends BaseModel {
   public updatedAt: DateTime;
 
   @beforeSave()
-  public static async createId(adModel: AdModel) {
+  public static async createId(adModel: Ad) {
     adModel.id = uuidv4();
   } // Generates a UUID before saving ad to database.
 

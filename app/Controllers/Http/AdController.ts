@@ -1,6 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import AdModel from "App/Models/AdModel";
-import UserModel from "App/Models/UserModel";
+import Ad from "App/Models/Ad";
+import User from "App/Models/User";
 import { UploadImage } from "App/Handlers/FileHandler";
 import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
@@ -14,7 +14,7 @@ export default class AdController {
     public async All(ctx: HttpContextContract): Promise<string> {
         const { view } = ctx;
 
-        const ads: AdModel[] = await AdModel.all();
+        const ads: Ad[] = await Ad.all();
         return view.render("ad/ad-list", { ads });
     } // Returns view with all ads.
 
@@ -55,7 +55,7 @@ export default class AdController {
             image_url: uploadedImageUrl
         });
 
-        const ad: AdModel = await AdModel.create(payload);
+        const ad: Ad = await Ad.create(payload);
         return response.redirect(`/ad/${ad.id}`);
     } // Route to register new ad.
 
@@ -67,7 +67,7 @@ export default class AdController {
         
         const id: number = params.id;
         
-        await AdModel.findByOrFail("id", id).then(ad => {
+        await Ad.findByOrFail("id", id).then(ad => {
             if (ad.author_id == auth.user?.id) {
                 ad.delete();
 
@@ -83,7 +83,7 @@ export default class AdController {
         await auth.use("web").authenticate();
         if (auth.user == null) return response.redirect("/");
         
-        const myAds: AdModel[] = await AdModel.query().where("author_id", auth.user?.id);
+        const myAds: Ad[] = await Ad.query().where("author_id", auth.user?.id);
         
         return view.render("ad/my-ads", { ads: myAds });
     } // Returns view with logged in user's ads.
@@ -92,9 +92,9 @@ export default class AdController {
         const { params, response, view } = ctx;
 
         const id: string = params.id;
-        const ad: AdModel | null = await AdModel.findBy("id", id);
+        const ad: Ad | null = await Ad.findBy("id", id);
         if (ad == null) return response.redirect("/ad/all");
-        const author: UserModel | null = await UserModel.findBy("id", ad.author_id);
+        const author: User | null = await User.findBy("id", ad.author_id);
         if (author == null) return response.redirect("/ad/all");
         const formatedTime: string = ad.createdAt.toString().split("T")[0];
         

@@ -2,10 +2,10 @@
 @set("title", "Kontrollpanel")
 
 @section("body")
-    <div class="container">
-        <h1 class="mb-4">Du är inloggad som: {{ auth.user.firstname }}</h1>
-        <a class="btn btn-primary" href="/ad/create">Skapa annons</a>
-        <a class="btn btn-primary" href="/ad/my">Mina annonser</a>
-        <a class="btn btn-danger" href="/removeaccount">Ta bort mitt konto</a>
+    <div class="row pr-5 pl-5">
+        <h1 class="mb-4" style="text-align: center;">Du är inloggad som: {{ auth.user.firstname }}</h1>
+        <a class="btn btn-primary m-1" href="/ad/create">Skapa annons</a>
+        <a class="btn btn-primary m-1" href="/ad/my">Mina annonser</a>
+        <a class="btn btn-danger m-1" href="/removeaccount">Ta bort mitt konto</a>
     </div>
 @end

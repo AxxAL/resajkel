@@ -1,6 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext"
-import AdModel from "App/Models/AdModel";
-import UserModel from "App/Models/UserModel";
+import Ad from "App/Models/Ad";
+import User from "App/Models/User";
 import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
 /**
@@ -43,11 +43,11 @@ export default class AuthController {
         });
         const payload = await request.validate({ schema: userSchema });
 
-        if (await UserModel.findBy("email", payload.email) != null) {
+        if (await User.findBy("email", payload.email) != null) {
             return response.badRequest("Den angivna emailen är redan kopplad till ett konto!");
         }
     
-        await UserModel.create(payload);
+        await User.create(payload);
     
         return response.redirect("/dashboard");
     } // Registers new user.
@@ -65,9 +65,9 @@ export default class AuthController {
 
         await auth.use("web").logout();
 
-        await AdModel.query().where("author_id", id).then(ads => ads.forEach(ad => ad.delete()));
+        await Ad.query().where("author_id", id).then(ads => ads.forEach(ad => ad.delete()));
 
-        await UserModel.findByOrFail("id", id).then(async user => await user.obliterateMe());
+        await User.findByOrFail("id", id).then(async user => await user.obliterateMe());
 
         return response.redirect("/login");
     } // Removes currently logged in user's account and all their ads.

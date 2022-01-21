@@ -7,7 +7,7 @@ import { rm } from "fs/promises";
 import { Exception } from '@adonisjs/core/build/standalone';
 
 
-export default class UserModel extends BaseModel {
+export default class User extends BaseModel {
 
   @column({ isPrimary: true })
   public id: string;
@@ -34,12 +34,12 @@ export default class UserModel extends BaseModel {
   public updatedAt: DateTime;
 
   @beforeSave()
-  public static async hashPassword(userModel: UserModel) {
+  public static async hashPassword(userModel: User) {
     if (userModel.$dirty.password) userModel.password = await Hash.make(userModel.password)
   } // Hashes password before saving user to database.
 
   @beforeSave()
-  public static async createId(userModel: UserModel) {
+  public static async createId(userModel: User) {
     userModel.id = uuidv4();
   }// Generates a UUID before saving user to database.
 
