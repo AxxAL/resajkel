@@ -2,14 +2,15 @@
 @set("title", "Annons")
 
 @section("body")
-    <img src="{{ ad.image_url }}" class="img-thumbnail" style="height: 50vh;" alt="Bild på {{ ad.title }}">
-    <h1>{{ ad.title }}</h1>
-    <p>Inlagd: {{ formatedTime }}</p>
-    <p class="text-success" style="font-size: 1.8rem;">{{ ad.price }} SEK</p>
-    <p>{{ ad.description }}</p>
-    <p class="border-top border-dark">Säljes av {{ author.firstname }}</p>
-    <div>
-        <p style="margin: 0;">Telefon: {{ author.phonenumber }}</p>
-        <p class="m-0">Email: {{ author.email }}</p>
+    <img src="{{ ad.image_url }}" class="img-fluid rounded mx-auto d-block" style="max-width: 25vw; height: auto;" alt="Bild på {{ ad.title }}">
+    <div class="border-bottom border-dark">
+        <p class="fs-1 fw-bold m-0 text-break">{{ ad.title }}</p>
+        <p class="m-0">Inlagd: {{ formatedTime }}</p>
+        <p class="text-success fs-3 fw-bold">{{ ad.price }} SEK</p>
+        <p class="m-0">Säljes av {{ author.firstname }}</p>
+        <p class="m-0">Telefon: {{ author.phonenumber }}</p>
+        <p class="mb-1">Email: {{ author.email }}</p>
     </div>
+    <h4 class="mt-2">Beskrivning:</h4>
+    <p class="text-break">{{ ad.description }}</p>
 @end

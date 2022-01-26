@@ -2,40 +2,41 @@
 @set("title", "Registrera dig")
 
 @section("body")
-    <div class="container">
-        <form action="/register/auth" method="POST">
-          <h1>Registrera konto</h1>
-            <div class="mb-3">
-                <label for="firstname" class="form-label">Namn*</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" autocomplete="off">
-              </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email adress*</label>
-              <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" autocomplete="off">
-              <small id="emailHelp" class="form-text text-muted">Din email kommer visas på dina annonser.</small>
-            </div>
-            <div class="mb-3">
-              <label for="phonenumber" class="form-label">Telefonnummer*</label>
-              <input type="text" class="form-control" id="phonenumber" name="phonenumber" autocomplete="off">
-              <small id="emailHelp" class="form-text text-muted">Ditt telefonnummer kommer visas på dina annonser.</small>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Lösenord*</label>
-              <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="agree" name="agree" onchange="toggleDisabled()">
-              <label class="form-check-label" for="agree">Jag har läst och accepterar <a href="/tos">Resajkels regler och överrenskommelser</a>.</label>
-            </div>
-            <button type="submit" class="btn btn-primary" id="submit" disabled>Registrera dig</button>
-        </form>
-    </div>
-    <script>
-      const submit = document.getElementById("submit");
-      const check = document.getElementById("agree");
+<form action="/register/auth" method="POST">
+  <h1 class="mb-3">Registrera konto</h1>
+  <label for="firstname" class="form-label mb-1">Namn</label>
+  <div class="mb-3 input-group">
+    <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+    <input type="text" class="form-control" id="firstname" name="firstname" autocomplete="off">
+  </div>
+  <label for="email" class="form-label mb-1">Email adress</label>
+  <div class="mb-3 input-group">
+    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+    <input type="email" class="form-control" id="email" name="email" autocomplete="off">
+  </div>
+  <label for="phonenumber" class="form-label">Telefonnummer</label>
+  <div class="mb-3 input-group">
+    <span class="input-group-text"><i class="bi bi-telephone-fill"></i></span>
+    <input type="text" class="form-control" id="phonenumber" name="phonenumber" autocomplete="off">
+  </div>
+  <label for="password" class="form-label mb-1">Lösenord</label>
+  <div class="mb-3 input-group">
+    <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
+    <input type="password" class="form-control" id="password" name="password">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="agree" name="agree" onchange="toggleDisabled()">
+    <label class="form-check-label" for="agree">Jag har läst och accepterar <a href="/tos">Resajkels regler och överrenskommelser</a>.</label>
+  </div>
+  <button type="submit" class="btn btn-primary" id="submit" disabled>Registrera dig</button>
+</form>
 
-      function toggleDisabled() {
-        check.checked ? submit.disabled = false : submit.disabled = true;
-      }
-    </script>
+<script>
+  const submit = document.getElementById("submit");
+  const check = document.getElementById("agree");
+
+  function toggleDisabled() {
+    check.checked ? submit.disabled = false : submit.disabled = true;
+  }
+</script>
 @end

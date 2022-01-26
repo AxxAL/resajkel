@@ -2,26 +2,24 @@
 @set("title", "Skapa annons")
 
 @section("body")
-    <div class="container">
-        <form action="/ad/create" method="POST" enctype="multipart/form-data">
-            <h1>Skapa en annons</h1>
-            <div class="mb-3">
-                <label for="title" class="form-label">Titel</label>
-                <input type="text" class="form-control" id="title" name="title" autocomplete="off">
-              </div>
-            <div class="mb-3">
-              <label for="price" class="form-label">Pris (SEK)</label>
-              <input type="number" class="form-control" id="price" name="price" autocomplete="off">
-            </div>
-            <div class="mb-3">
-              <label for="description" class="form-label">Beskrivning</label>
-              <textarea type="text" class="form-control" id="description" name="description"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Bild på föremålet</label>
-                <input type="file" class="form-control" id="image" name="image">
-            </div>
-            <button type="submit" class="btn btn-primary">Skapa annons</button>
-        </form>
+<form action="/ad/create" method="POST" enctype="multipart/form-data">
+  <h1>Skapa en annons</h1>
+  <div class="mb-3">
+    <label for="title" class="form-label">Titel</label>
+    <input type="text" class="form-control" id="title" name="title" autocomplete="off">
     </div>
+  <div class="mb-3">
+    <label for="price" class="form-label">Pris (SEK)</label>
+    <input type="number" class="form-control" id="price" name="price" autocomplete="off">
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Beskrivning</label>
+    <textarea type="text" class="form-control" id="description" name="description"></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="image" class="form-label">Bild på föremålet</label>
+    <input type="file" class="form-control" id="image" name="image">
+  </div>
+  <button type="submit" class="btn btn-primary">Skapa annons</button>
+</form>
 @end

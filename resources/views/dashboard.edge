@@ -3,7 +3,7 @@
 
 @section("body")
     <div class="row pr-5 pl-5">
-        <h1 class="mb-4" style="text-align: center;">Du är inloggad som: {{ auth.user.firstname }}</h1>
+        <h1 class="mb-4 text-center">Du är inloggad som: <span class="fst-italic">{{ auth.user.firstname }}</span></h1>
         <a class="btn btn-primary m-1" href="/ad/create">Skapa annons</a>
         <a class="btn btn-primary m-1" href="/ad/my">Mina annonser</a>
         <a class="btn btn-danger m-1" href="/removeaccount">Ta bort mitt konto</a>
