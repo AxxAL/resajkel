@@ -2,18 +2,15 @@
 @set("title", "Mina Annonser")
 
 @section("body")
-    <div class="container">
-        <div class="row">
-            @if(ads.length > 0)
-                @each(ad in ads)
-                <div class="col">
-                    @!component("components/my-ad-card", { ad })
-                </div>
-                @end
-            @else
-                <p>Här var det öde :P</p>
-                <p>Just nu har du inga annonser. Du kan däremot skapa en annons genom att <a href="/ad/create">klicka här</a>.</p>
-            @endif
-        </div>
+    <h1 class="text-center mb-2">Dina annonser</h1>
+    <div class="row g-2">
+        @if(ads.length > 0)
+            @each(ad in ads)
+                @!component("components/my-ad-card", { ad })
+            @end
+        @else
+            <p>Här var det öde :P</p>
+            <p>Just nu har du inga annonser. Du kan däremot skapa en annons genom att <a href="/ad/create">klicka här</a>.</p>
+        @endif
     </div>
 @end
