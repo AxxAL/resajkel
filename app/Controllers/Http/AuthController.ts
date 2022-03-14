@@ -23,7 +23,7 @@ export default class AuthController {
         try {
             await auth.use("web").attempt(email, password, rememberMe);
             return response.redirect("/dashboard");
-        } catch {
+        } catch (err) {
             return response.badRequest("Felaktiga inloggningsuppgifter!");
         }
 
@@ -33,21 +33,25 @@ export default class AuthController {
         return view.render("auth/register-form");
     } // Returns view for registering a user.
 
-    public async RegisterPOST({ request, response }: HttpContextContract): Promise<void> {
+    public async RegisterPOST({ request, response, auth }: HttpContextContract): Promise<void> {
 
-        const userSchema = schema.create({
+        // Request valitation schema.
+        const payload = await request.validate({ schema: schema.create({
             email: schema.string({}, [ rules.regex(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ]), // Email regex
             phonenumber: schema.string({}, [ rules.regex(/^07(0|2|3|6|9)\d{7}$/g) ]), // Swedish phonenumber regex
             password: schema.string(),
             firstname: schema.string()
-        });
-        const payload = await request.validate({ schema: userSchema });
+        })});
 
         if (await User.findBy("email", payload.email) != null) {
             return response.badRequest("Den angivna emailen är redan kopplad till ett konto!");
         }
-    
+        
+        // Create user.
         await User.create(payload);
+
+        // Log user in.
+        await auth.use("web").attempt(payload.email, payload.password, true);
     
         return response.redirect("/dashboard");
     } // Registers new user.
@@ -65,9 +69,12 @@ export default class AuthController {
 
         await auth.use("web").logout();
 
-        await Ad.query().where("author_id", id).then(ads => ads.forEach(ad => ad.delete()));
+        await Ad.query()
+            .where("author_id", id)
+            .then(ads => ads.forEach(ad => ad.delete()));
 
-        await User.findByOrFail("id", id).then(async user => await user.obliterateMe());
+        await User.findByOrFail("id", id)
+            .then(async user => await user.obliterateMe());
 
         return response.redirect("/login");
     } // Removes currently logged in user's account and all their ads.

@@ -1,4 +1,3 @@
-import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Ad from "App/Models/Ad";
 import User from "App/Models/User";
 import { UploadImage } from "App/Handlers/FileHandler";
@@ -11,23 +10,17 @@ import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
 export default class AdController {
 
-    public async All(ctx: HttpContextContract): Promise<string> {
-        const { view } = ctx;
-
+    public async All({ view }): Promise<string> {
         const ads: Ad[] = await Ad.all();
         return view.render("ad/ad-list", { ads });
     } // Returns view with all ads.
 
-    public async CreateForm(ctx: HttpContextContract): Promise<string> {
-        const { auth, view } = ctx;
-
+    public async CreateForm({ auth, view }): Promise<string> {
         await auth.use("web").authenticate();
         return view.render("ad/create-form");
     } // Returns form for ad creation.
 
-    public async CreatePost(ctx: HttpContextContract): Promise<void> {
-        const { auth, request, response } = ctx;
-
+    public async CreatePost({ auth, request, response }): Promise<void> {
         await auth.use("web").authenticate();
 
         // Validation schema for HTTP request body.
@@ -42,26 +35,24 @@ export default class AdController {
         // Separates unnecessary fields from necessary.
         let { image, ...payload } = body;
 
-        let uploadedImageUrl: string;
+        let image_url: string;
         try {
-            uploadedImageUrl = await UploadImage(image, auth?.user);
+            image_url = await UploadImage(image, auth?.user);
         } catch(err) {
-            uploadedImageUrl = "/assets/images/image-not-found.png";
+            image_url = "/assets/images/image-not-found.png";
         }
 
         // Add required fields to payload.
         Object.assign(payload, {
             author_id: auth.user?.id,
-            image_url: uploadedImageUrl
+            image_url
         });
 
-        const ad: Ad = await Ad.create(payload);
-        return response.redirect(`/ad/${ad.id}`);
+        await Ad.create(payload);
+        return response.redirect("/ad/my");
     } // Route to register new ad.
 
-    public async RemoveAd(ctx: HttpContextContract): Promise<void> {
-        const { auth, params, response } = ctx;
-
+    public async RemoveAd({ auth, params, response }): Promise<void> {
         await auth.use("web").authenticate();
         if (!auth.user) return response.redirect("/");
         
@@ -70,35 +61,34 @@ export default class AdController {
         await Ad.findByOrFail("id", id).then(ad => {
             if (ad.author_id == auth.user?.id) {
                 ad.delete();
-
             }
         });
         
         return response.redirect("/ad/my");
     } // Removes specified ad.
 
-    public async UserAds(ctx: HttpContextContract): Promise<string | void> {
-        const { auth, view, response } = ctx;
-
+    public async UserAds({ auth, view, response }): Promise<string | void> {
         await auth.use("web").authenticate();
         if (auth.user == null) return response.redirect("/");
         
-        const myAds: Ad[] = await Ad.query().where("author_id", auth.user?.id);
+        const ads: Ad[] = await Ad.query()
+            .where("author_id", auth.user?.id);
         
-        return view.render("ad/my-ads", { ads: myAds });
+        return view.render("ad/my-ads", { ads });
     } // Returns view with logged in user's ads.
 
-    public async Ad(ctx: HttpContextContract): Promise<string | void> {
-        const { params, response, view } = ctx;
-
+    public async Ad({ params, response, view }): Promise<string | void> {
         const id: string = params.id;
+
         const ad: Ad | null = await Ad.findBy("id", id);
-        if (ad == null) return response.redirect("/ad/all");
+        if (ad == null)
+            return response.redirect("/ad/all");;
+
         const author: User | null = await User.findBy("id", ad.author_id);
-        if (author == null) return response.redirect("/ad/all");
-        const formatedTime: string = ad.createdAt.toString().split("T")[0];
+        if (author == null)
+            return response.redirect("/ad/all");
         
-        return view.render("ad/ad", { ad, author, formatedTime });
+        return view.render("ad/ad", { ad, author });
     } // Returns detailed view of specified ad.
 
 }

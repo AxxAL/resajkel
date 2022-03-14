@@ -10,7 +10,7 @@ export default class Users extends BaseSchema {
       table.string("phonenumber")
       table.string("password")
       table.string("firstname")
-      table.string("rememberMeToken")
+      table.string("remember_me_token")
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

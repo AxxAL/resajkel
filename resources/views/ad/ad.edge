@@ -5,7 +5,7 @@
     <img src="{{ ad.image_url }}" class="img-fluid rounded mx-auto d-block" style="max-width: 25vw; height: auto;" alt="Bild på {{ ad.title }}">
     <div class="border-bottom border-dark">
         <p class="fs-1 fw-bold m-0 text-break">{{ ad.title }}</p>
-        <p class="m-0">Inlagd: {{ formatedTime }}</p>
+        <p class="m-0">Inlagd: {{ ad.createdAt.toString().split("T")[0] }}</p>
         <p class="text-success fs-3 fw-bold">{{ ad.price }} SEK</p>
         <p class="m-0">Säljes av {{ author.firstname }}</p>
         <p class="m-0">Telefon: {{ author.phonenumber }}</p>

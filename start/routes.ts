@@ -4,7 +4,7 @@ import "./routers/AuthRouter"; // Login & Register user.
 import "./routers/APIRouter"; // API routes.
 
 
-Route.get('/', async ({ view }) => {
+Route.get("/", async ({ view }) => {
   return await view.render("home");
 }); // [GET] / | Returns view for home page.
 
